@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playwright Mastery Roadmap — 4 Weeks · 1hr/day · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0f;--surface:#111118;--surface2:#1a1a24;--accent:#00d4ff;--accent2:#4fffb0;--accent3:#ff6b9d;--accent4:#a78bfa;--accent5:#fbbf24;--text:#e8e8f0;--muted:#6070a0;--border:#1e2035;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden;}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent4));z-index:100;transition:width 0.1s;width:0;}
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:90;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;}
+  .nav-links{display:flex;gap:8px;}
+  .nav-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:all 0.2s;}
+  .nav-links a:hover{border-color:var(--accent);color:var(--accent);}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 20px 60px;position:relative;overflow:hidden;background:radial-gradient(ellipse 90% 60% at 50% 0%,#0d1a2e 0%,var(--bg) 70%);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,black 0%,transparent 70%);}
+  .hero-glow{position:absolute;width:800px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.05) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);animation:pulse 5s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:0.5;transform:translateX(-50%) scale(1);}50%{opacity:1;transform:translateX(-50%) scale(1.1);}}
+  .hero-badge{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,212,255,0.25);padding:7px 20px;border-radius:100px;margin-bottom:36px;animation:fadeDown 0.6s ease both;background:rgba(0,212,255,0.05);}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(48px,9vw,100px);font-weight:800;line-height:0.95;letter-spacing:-3px;animation:fadeDown 0.7s 0.1s ease both;}
+  .hero h1 .line2{color:var(--accent);display:block;}
+  .hero h1 .line3{color:var(--muted);display:block;font-size:clamp(18px,3vw,32px);letter-spacing:-1px;font-weight:400;margin-top:14px;}
+  .hero-sub{font-size:17px;color:var(--muted);margin:28px 0 52px;max-width:560px;font-weight:300;animation:fadeDown 0.7s 0.2s ease both;line-height:1.7;}
+  .hero-stats{display:flex;gap:52px;animation:fadeDown 0.7s 0.3s ease both;flex-wrap:wrap;justify-content:center;margin-bottom:48px;}
+  .stat{text-align:center;}
+  .stat-num{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--accent);display:block;}
+  .stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+  .hero-tags{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;animation:fadeDown 0.7s 0.4s ease both;}
+  .hero-tag{font-family:'Space Mono',monospace;font-size:10px;padding:5px 14px;border-radius:100px;border:1px solid;}
+  .ht-win{color:#7eb8ff;border-color:rgba(126,184,255,0.3);background:rgba(126,184,255,0.05);}
+  .ht-vsc{color:#4fffb0;border-color:rgba(79,255,176,0.3);background:rgba(79,255,176,0.05);}
+  .ht-beg{color:#fbbf24;border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.05);}
+  .ht-job{color:#ff6b9d;border-color:rgba(255,107,157,0.3);background:rgba(255,107,157,0.05);}
+  .ht-1hr{color:#a78bfa;border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08);font-weight:700;}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+  .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:10px;letter-spacing:2px;text-transform:uppercase;animation:fadeDown 1s 1.2s ease both;opacity:0;}
+  .scroll-dot{width:1px;height:44px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollLine 2s ease-in-out infinite;}
+  @keyframes scrollLine{0%,100%{transform:scaleY(1);opacity:1;}50%{transform:scaleY(0.4);opacity:0.3;}}
+  .container{max-width:960px;margin:0 auto;padding:0 24px;}
+  .section-header{padding:80px 0 40px;text-align:center;}
+  .section-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;display:block;}
+  .section-title{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-1px;}
+  .how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:80px;}
+  .how-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:border-color 0.2s;}
+  .how-card:hover{border-color:rgba(0,212,255,0.2);}
+  .how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .how-card:nth-child(1)::before{background:var(--accent);}
+  .how-card:nth-child(2)::before{background:var(--accent2);}
+  .how-card:nth-child(3)::before{background:var(--accent3);}
+  .how-card:nth-child(4)::before{background:var(--accent4);}
+  .how-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px;display:block;}
+  .how-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;}
+  .how-card p{font-size:13px;color:var(--muted);line-height:1.5;}
+  /* 1HR RULE BANNER */
+  .rule-banner{background:linear-gradient(135deg,rgba(167,139,250,0.07),rgba(0,212,255,0.05));border:1px solid rgba(167,139,250,0.25);border-radius:16px;padding:20px 28px;margin-bottom:56px;display:flex;align-items:center;gap:18px;}
+  .rule-icon{font-size:28px;flex-shrink:0;}
+  .rule-text h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--accent4);margin-bottom:4px;}
+  .rule-text p{font-size:13px;color:var(--muted);line-height:1.5;}
+  /* WEEK */
+  .week{margin-bottom:80px;}
+  .week-header{display:flex;align-items:center;gap:24px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+  .week-num{font-family:'Syne',sans-serif;font-size:72px;font-weight:800;line-height:1;opacity:0.1;}
+  .week-info h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.5px;}
+  .week-info p{color:var(--muted);font-size:14px;margin-top:4px;}
+  .week-tag{margin-left:auto;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid;white-space:nowrap;}
+  .week-1 .week-tag{color:var(--accent);border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.05);}
+  .week-2 .week-tag{color:var(--accent2);border-color:rgba(79,255,176,0.3);background:rgba(79,255,176,0.05);}
+  .week-3 .week-tag{color:var(--accent4);border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.05);}
+  .week-4 .day-card:hover{border-color:rgba(255,107,157,0.25);}
+  .week-4 .week-tag{color:var(--accent3);border-color:rgba(255,107,157,0.3);background:rgba(255,107,157,0.05);}
+  /* DAY CARDS */
+  .day-grid{display:grid;gap:12px;}
+  .day-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s;}
+  .week-1 .day-card:hover{border-color:rgba(0,212,255,0.25);}
+  .week-2 .day-card:hover{border-color:rgba(79,255,176,0.25);}
+  .week-3 .day-card:hover{border-color:rgba(167,139,250,0.25);}
+  .day-header{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;user-select:none;}
+  .day-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);min-width:44px;}
+  .day-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;flex:1;}
+  .day-time{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent4);background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);padding:3px 10px;border-radius:100px;white-space:nowrap;}
+  .day-toggle{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:transform 0.3s;font-size:18px;}
+  .day-card.open .day-toggle{transform:rotate(45deg);}
+  .day-body{display:none;padding:0 24px 24px;border-top:1px solid var(--border);}
+  .day-card.open .day-body{display:block;}
+  /* SECTIONS */
+  .day-section{margin-top:20px;}
+  .day-section-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px;display:inline-block;font-weight:700;}
+  .label-concept{background:rgba(0,212,255,0.08);color:var(--accent);}
+  .label-watch{background:rgba(126,184,255,0.08);color:#7eb8ff;}
+  .label-read{background:rgba(79,255,176,0.08);color:var(--accent2);}
+  .label-hands{background:rgba(255,107,157,0.08);color:var(--accent3);}
+  .label-ai{background:rgba(167,139,250,0.08);color:var(--accent4);}
+  .label-project{background:rgba(251,191,36,0.08);color:var(--accent5);}
+  .label-prob{background:rgba(0,200,100,0.08);color:#00e070;}
+  .day-section ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .day-section ul li{font-size:14px;color:#b0b0d0;padding-left:18px;position:relative;line-height:1.6;}
+  .day-section ul li::before{content:'→';position:absolute;left:0;color:var(--muted);font-size:11px;top:3px;}
+  .day-section a{color:#7eb8ff;text-decoration:none;border-bottom:1px solid rgba(126,184,255,0.3);transition:color 0.2s;}
+  .day-section a:hover{color:#fff;}
+  .day-section strong{color:var(--text);font-weight:500;}
+  .ai-prompt{background:rgba(167,139,250,0.05);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:16px 18px;font-family:'Space Mono',monospace;font-size:12px;color:#d4bbff;line-height:1.7;margin-top:8px;}
+  .ai-prompt::before{content:'🤖 PASTE THIS INTO CLAUDE →';display:block;font-size:9px;letter-spacing:1px;color:var(--accent4);margin-bottom:8px;opacity:0.7;}
+  .prob-block{background:rgba(0,200,100,0.04);border:1px solid rgba(0,200,100,0.18);border-radius:12px;padding:14px 18px;margin-top:8px;}
+  .prob-item{display:flex;align-items:flex-start;gap:12px;}
+  .prob-diff{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap;margin-top:2px;flex-shrink:0;}
+  .prob-diff.easy{background:rgba(79,255,176,0.1);color:var(--accent2);border:1px solid rgba(79,255,176,0.2);}
+  .prob-diff.medium{background:rgba(251,191,36,0.1);color:var(--accent5);border:1px solid rgba(251,191,36,0.2);}
+  .prob-text{font-size:13px;color:#b0b0d0;line-height:1.55;flex:1;}
+  /* PROJECT */
+  .project-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:26px;margin:12px 0;position:relative;overflow:hidden;}
+  .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+  .project-badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block;}
+  .project-card h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:8px;}
+  .project-card p{font-size:14px;color:var(--muted);margin-bottom:14px;line-height:1.6;}
+  .project-tasks{display:flex;flex-wrap:wrap;gap:8px;}
+  .task-chip{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);color:var(--accent);font-size:11px;padding:4px 12px;border-radius:100px;font-family:'Space Mono',monospace;}
+  /* MILESTONE */
+  .milestone-card{background:linear-gradient(135deg,rgba(0,212,255,0.04),rgba(79,255,176,0.04));border:1px solid rgba(0,212,255,0.15);border-radius:16px;padding:22px 26px;margin:20px 0 0;display:flex;align-items:flex-start;gap:16px;}
+  .milestone-icon{font-size:26px;flex-shrink:0;}
+  .milestone-text h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--accent);margin-bottom:5px;}
+  .milestone-text p{font-size:13px;color:var(--muted);line-height:1.5;}
+  /* Q&A */
+  .qa-grid{display:grid;gap:12px;margin-bottom:40px;}
+  .qa-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .qa-header{display:flex;align-items:center;gap:14px;padding:16px 22px;cursor:pointer;}
+  .qa-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent3);min-width:28px;}
+  .qa-q{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;flex:1;}
+  .qa-toggle{color:var(--muted);font-size:16px;transition:transform 0.3s;}
+  .qa-card.open .qa-toggle{transform:rotate(45deg);}
+  .qa-body{display:none;padding:0 22px 18px;border-top:1px solid var(--border);}
+  .qa-card.open .qa-body{display:block;}
+  .qa-a{font-size:14px;color:#b0b0d0;line-height:1.7;margin-top:14px;}
+  /* RESOURCES */
+  .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:60px;}
+  .resource-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;}
+  .resource-icon{font-size:26px;margin-bottom:12px;display:block;}
+  .resource-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;}
+  .resource-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .resource-list li{font-size:13px;color:var(--muted);}
+  .resource-list a{color:#7eb8ff;text-decoration:none;border-bottom:1px solid rgba(126,184,255,0.3);}
+  /* TIPS */
+  .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:80px;}
+  .tip-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;transition:border-color 0.2s;}
+  .tip-card:hover{border-color:rgba(0,212,255,0.2);}
+  .tip-emoji{font-size:24px;margin-bottom:10px;display:block;}
+  .tip-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px;}
+  .tip-card p{font-size:13px;color:var(--muted);line-height:1.5;}
+  .divider{border:none;border-top:1px solid var(--border);margin:60px 0;}
+  footer{border-top:1px solid var(--border);padding:48px 24px;text-align:center;}
+  footer p{color:var(--muted);font-size:13px;font-family:'Space Mono',monospace;}
+  footer span{color:var(--accent);}
+  @media(max-width:600px){.topnav{padding:14px 20px;}.nav-links{display:none;}.hero-stats{gap:24px;}.week-header{flex-wrap:wrap;}.week-tag{margin-left:0;}.day-header{flex-wrap:wrap;gap:8px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<nav class="topnav">
+  <span class="nav-logo">PW // 30 DAYS</span>
+  <div class="nav-links">
+    <a href="#week1">Week 1</a>
+    <a href="#week2">Week 2</a>
+    <a href="#week3">Week 3</a>
+    <a href="#week4">Week 4</a>
+    <a href="#interview">Interview</a>
+    <a href="#resources">Resources</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">1 Hour a Day · Zero JS Knowledge to Job-Ready</div>
+  <h1>Playwright<span class="line2">Mastery</span><span class="line3">Roadmap</span></h1>
+  <p class="hero-sub">A focused 30-day system built for complete beginners — zero JavaScript knowledge needed, exactly 1 hour per day. Full JS foundations in Week 1, then everything from locators to TypeScript, parallel execution, visual regression, and CI/CD. Nothing wasted.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">30</span><span class="stat-label">Days</span></div>
+    <div class="stat"><span class="stat-num">1hr</span><span class="stat-label">Per Day</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Projects</span></div>
+    <div class="stat"><span class="stat-num">30hrs</span><span class="stat-label">Total Time</span></div>
+  </div>
+  <div class="hero-tags">
+    <span class="hero-tag ht-1hr">1 Hour / Day Max</span>
+    <span class="hero-tag ht-win">Windows</span>
+    <span class="hero-tag ht-vsc">VS Code</span>
+    <span class="hero-tag ht-beg">Complete Beginner</span>
+    <span class="hero-tag ht-job">QA Job Goal</span>
+    <span class="hero-tag" style="color:#34d399;border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.05);">TypeScript Ready</span>
+  </div>
+  <div class="scroll-hint"><div class="scroll-dot"></div>scroll</div>
+</section>
+
+<div class="container">
+  <div class="section-header">
+    <span class="section-tag">Before You Start</span>
+    <h2 class="section-title">How to Use This Roadmap</h2>
+  </div>
+
+  <div class="rule-banner">
+    <span class="rule-icon">⏱️</span>
+    <div class="rule-text">
+      <h4>The 1-Hour Rule — strictly enforced</h4>
+      <p>Every day has exactly: 1 video (≤15 min) · 1 short read (≤10 min) · 2 hands-on tasks (≤25 min) · 1 problem (≤5 min) · 1 AI prompt to use if stuck (≤5 min). Stop at 1 hour even if you want to do more — consistency over intensity.</p>
+    </div>
+  </div>
+
+  <div class="how-grid">
+    <div class="how-card"><span class="how-num">01 //</span><h3>One Day at a Time</h3><p>Open a day card, do it completely, close your laptop. Do not jump ahead. Each day builds on the one before.</p></div>
+    <div class="how-card"><span class="how-num">02 //</span><h3>Code, Don't Watch</h3><p>The video is a primer — max 15 min. Spend the rest actually writing code. Muscle memory beats passive viewing every time.</p></div>
+    <div class="how-card"><span class="how-num">03 //</span><h3>Stuck? Use the AI Prompt</h3><p>Each day has a purple AI prompt. Paste it into Claude when stuck. Get unblocked fast and move on — don't lose the hour.</p></div>
+    <div class="how-card"><span class="how-num">04 //</span><h3>Push Every Project</h3><p>After each mini project, push to GitHub. By Day 21 you'll have a live portfolio employers can browse. That's the goal.</p></div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week week-1" id="week1">
+    <div class="week-header">
+      <span class="week-num">01</span>
+      <div class="week-info"><h2>Foundations — Full JS Basics + First Tests</h2><p>Start from zero. Learn every JavaScript concept you need — variables, functions, arrays, objects, async/await, destructuring — then write your first real Playwright tests.</p></div>
+      <span class="week-tag">Days 1–9</span>
+    </div>
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 01</span><span class="day-title">Setup Everything — Node, VS Code, Playwright</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Get your environment ready and run your very first Playwright test</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright install beginners Windows 2024"</strong> — pick any video under 15 min that shows setup to first test run.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/intro" target="_blank">playwright.dev/docs/intro</a> — read only the "Installation" section. Just that, nothing more.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (35 min)</span><ul><li>Install Node.js (nodejs.org LTS) → open Command Prompt → run <strong>node --version</strong> → should show v20.x</li><li>Open VS Code → install extension <strong>"Playwright Test for VSCode"</strong> → create folder <strong>playwright-course</strong> → open terminal → run <strong>npm init playwright@latest</strong> → choose JavaScript → run <strong>npx playwright test</strong></li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Open the generated example.spec.js. What URL does the test visit? What does it check? Write your answer in 2 sentences.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I just finished Playwright Day 1. I ran npm init playwright@latest and executed npx playwright test. Can you explain what each line of the generated example.spec.js file means in very simple English? Go line by line. I am a complete beginner with no coding experience.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 02</span><span class="day-title">JavaScript — Variables, Functions & Loops</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>The absolute basics of JavaScript — every program ever written uses these. By the end of this hour you will be able to create variables, write functions, and repeat actions with loops. Zero experience required.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"JavaScript variables functions loops absolute beginners"</strong> — Traversy Media "JavaScript Crash Course For Beginners" is excellent. Watch until the loops section, stop at 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://javascript.info/variables" target="_blank">javascript.info/variables</a> — read the Variables page. Then read <a href="https://javascript.info/function-basics" target="_blank">javascript.info/function-basics</a> — first section only. Both are short.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>practice.js</strong> in your playwright-course folder. Write each of these and run with <strong>node practice.js</strong> after each: <strong>const name = "YourName"; console.log("Hello " + name);</strong> — then change <strong>const</strong> to <strong>let</strong> and reassign the variable. Understand the difference.</li><li>Write a function: <strong>function greet(name) { return "Hello " + name; } console.log(greet("World"));</strong> — then write a for loop: <strong>for (let i = 1; i &lt;= 5; i++) { console.log(i); }</strong> — run it and see numbers 1 to 5 printed. Then combine them: loop 5 times and call greet() each time with a different name.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Write a function called <strong>multiply(a, b)</strong> that returns a × b. Call it 3 times with different numbers and log the results. Then write a loop that prints only even numbers from 1 to 10.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am a complete beginner learning JavaScript for the first time. I just learned about variables (const/let), functions, and for loops. I am confused about [describe what confuses you]. Explain it in the simplest possible English — no jargon. Then give me one more small hands-on exercise I can do in 5 minutes to practice it.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 03</span><span class="day-title">JavaScript — Arrays, Objects & Template Literals</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Arrays (lists of values), Objects (groups of named values), and Template Literals (modern string building). These three are everywhere in Playwright — your test data, your assertions, and your error messages all use them constantly.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"JavaScript arrays objects template literals beginners"</strong> — any video under 15 min. Fireship "JavaScript in 100 Seconds" is a great refresher after watching a longer intro.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://javascript.info/array" target="_blank">javascript.info/array</a> — read the first section only (Declaration, accessing items). Then read <a href="https://javascript.info/object" target="_blank">javascript.info/object</a> — the first section (Literals and properties).</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li><strong>Arrays:</strong> <strong>const browsers = ['chromium', 'firefox', 'webkit'];</strong> → log the first item (<strong>browsers[0]</strong>) → log the length (<strong>browsers.length</strong>) → use a for loop to print every item → add a new item with <strong>browsers.push('edge')</strong>. You'll use arrays constantly for test data.</li><li><strong>Objects + Template Literals:</strong> <strong>const user = { username: 'admin', password: 'secret123', role: 'admin' };</strong> → access properties: <strong>user.username</strong> → use a template literal: <strong>console.log(`Logging in as ${user.username}`);</strong> — note the backticks. This is exactly how you'll define test data objects for parameterized tests on Day 18.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Create an array of 3 test user objects — each with a <strong>username</strong>, <strong>password</strong>, and <strong>expectedResult</strong> property ('success' or 'failure'). Loop through the array and print a sentence for each using a template literal: e.g. <em>"Testing login for admin — expected: success"</em>.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am learning JavaScript basics for Playwright. I just learned arrays and objects. Show me how arrays and objects appear inside a real Playwright test — specifically: 1) an array of test usernames looped with test.each, 2) an object used as test data with username and password properties, 3) a template literal used inside an assertion error message. Show all 3 as real Playwright code with brief explanations.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 04</span><span class="day-title">JavaScript — Variables, Destructuring, Classes & Spread</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Learn the JS patterns used constantly inside Playwright: const/let, destructuring, spread/rest, arrow functions, and classes with <strong>this</strong> — all of these appear inside POM classes and fixtures</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"JavaScript destructuring spread classes this explained beginners"</strong> — Fireship or Traversy Media. Stop at 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://javascript.info/destructuring-assignment" target="_blank">javascript.info/destructuring-assignment</a> — read only the Array and Object destructuring sections. These appear in every Playwright fixture.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>practice.js</strong> → write: <strong>const { page, browser } = context;</strong> (destructuring — you'll see this in every test) → practice destructuring an object with 3 properties → run: <strong>node practice.js</strong></li><li>Write a simple class: <strong>class LoginPage { constructor(page) { this.page = page; } }</strong> — understand that <strong>this</strong> refers to the current instance. This is the exact pattern used in Page Object Model on Day 10.</li><li>Practice spread: <strong>const browsers = ['chromium', 'firefox']; const all = [...browsers, 'webkit'];</strong> — you'll see <strong>...devices['Desktop Chrome']</strong> in playwright.config.js on Day 24.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Look at this Playwright fixture signature: <strong>test('my test', async ({ page, request }) => { })</strong> — what JS pattern is <strong>{ page, request }</strong>? Write the name and one sentence explaining it.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am learning JavaScript for Playwright. Show me how destructuring, spread, and classes with 'this' appear directly inside real Playwright code. For each concept: 1) show a plain JS example, 2) show the exact same pattern as it appears inside a Playwright test or POM class. I am a beginner — keep explanations short and concrete.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 05</span><span class="day-title">JavaScript — Async/Await (The Most Important Day)</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Understand async/await — every single Playwright line uses this. If you skip this, nothing will make sense.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"JavaScript async await explained simply"</strong> — Fireship version is under 7 min. Watch it twice if needed.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://javascript.info/async-await" target="_blank">javascript.info/async-await</a> — read only the first 2 sections: "Async functions" and "Await". Stop there.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Write this exactly: <strong>async function wait() { await new Promise(r => setTimeout(r, 1000)); console.log("Done after 1 second!"); } wait();</strong> — run it, see the 1-second pause.</li><li>Convert 2 regular functions to arrow functions: <strong>function add(a,b){return a+b;}</strong> → becomes → <strong>const add = (a,b) => a+b;</strong></li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">In your own words: what does "await" do? Write 2 sentences. No technical jargon allowed.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Explain JavaScript async/await to me using a real-life analogy (like ordering food at a restaurant) in very simple English. Then show me a 5-line code example. Then show me how the exact same pattern appears inside a Playwright test so I can see the connection clearly.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 06</span><span class="day-title">Your First Real Playwright Test — From Scratch</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Write YOUR test from scratch — not the generated one. Understand test(), expect(), page.goto(), page.click()</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright write first test from scratch 2024"</strong> — watch until you see them write and run a test, stop at 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/writing-tests" target="_blank">playwright.dev/docs/writing-tests</a> — read only the first example. Copy it. Understand each line.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>tests/my-first.spec.js</strong> → write a test: go to example.com → check the heading says "Example Domain" → run with: <strong>npx playwright test --headed</strong></li><li>Write a second test: visit wikipedia.org → check the page title contains "Wikipedia" → run it</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Intentionally write a failing assertion. Run it. What does the error say? What do the words "expected" and "received" mean in the output?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I just wrote my first Playwright test from scratch. Here is my code: [paste your code here]. Can you review it? Tell me: 1) is it correct? 2) what could be improved? 3) explain what each line does in simple English.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 07</span><span class="day-title">Locators — Finding Elements the Right Way</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Learn: getByRole, getByText, getByPlaceholder, getByTestId, and locator chaining with <strong>.filter()</strong>. These cover 99% of real-world locating needs — including the patterns used in modern component-driven apps.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright getByRole getByText getByTestId locators tutorial 2024"</strong> — any video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/locators" target="_blank">playwright.dev/docs/locators</a> — read: getByRole, getByText, getByPlaceholder, getByTestId, and the <strong>Filtering Locators</strong> section. These are the locators real teams use.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Go to <a href="https://demo.playwright.dev/todomvc" target="_blank">demo.playwright.dev/todomvc</a> → open DevTools (F12) → inspect 3 elements → write a test: use getByPlaceholder to find the input → add 2 todo items → use getByRole to click the "All" filter button</li><li>Practice <strong>locator chaining + filter()</strong>: find only completed todo items using <strong>page.getByRole('listitem').filter({ hasText: 'your-item' })</strong>. Then practice <strong>getByTestId</strong>: add a <strong>data-testid="submit-btn"</strong> to a practice HTML file and select it with <strong>page.getByTestId('submit-btn')</strong> — this is how teams with dedicated developers work.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">A page has 5 list items but you only want the one containing "Apples". Write the Playwright locator using .filter(). Then explain: when would getByTestId be the best locator choice over getByRole?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am learning Playwright locators including getByTestId and locator.filter(). Give me 3 HTML snippets one at a time — each requires a different locator strategy (getByRole, getByTestId, or .filter()). For each I'll write the best locator. After I answer, tell me if I'm correct and show the ideal solution with an explanation.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 08</span><span class="day-title">Assertions — Hard, Soft, and Smart</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Learn the core assertions: toBeVisible, toHaveText, toHaveURL, toBeEnabled, toHaveCount, toHaveAttribute — plus <strong>expect.soft()</strong>, the professional pattern that collects all failures in one run instead of stopping at the first.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright assertions toBeVisible toHaveText soft assertions tutorial"</strong> — any focused video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-assertions" target="_blank">playwright.dev/docs/test-assertions</a> — read: toBeVisible, toHaveText, toHaveURL, toBeEnabled, toHaveCount, toHaveAttribute, and the <strong>Soft Assertions</strong> section. Bookmark the page.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>On <a href="https://the-internet.herokuapp.com/login" target="_blank">the-internet.herokuapp.com/login</a> — write tests using: toBeVisible (username input), toHaveURL (page URL), toBeEnabled (login button), toHaveAttribute (check the input has attribute <strong>type="text"</strong>). Login with wrong credentials → assert error using toHaveText.</li><li>Write a test using <strong>expect.soft()</strong> — add 3 soft assertions that check different fields on the login page. Make one of them intentionally wrong. Run it — notice how all 3 assertions are reported even though one failed, instead of stopping at the first failure. This is how real QA teams catch multiple bugs per run.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">What is the difference between a hard assertion and a soft assertion in Playwright? Give a real scenario where expect.soft() is better than a regular expect().</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Give me 5 Playwright assertion exercises — covering: toBeVisible, toHaveText, toHaveURL, toHaveAttribute, and expect.soft(). Describe a webpage scenario for each. I'll write the assertion and paste it back for your feedback. After I finish, explain when to use expect.soft() vs regular expect() in a real test suite.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 09</span><span class="day-title">Week 1 Review + Mini Project 1</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-project">Mini Project 1 — TodoMVC Test Suite</span></div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 01</span>
+            <h3>TodoMVC Complete Test Suite</h3>
+            <p>Build a test file for <a href="https://demo.playwright.dev/todomvc" target="_blank">demo.playwright.dev/todomvc</a> with 5 tests using only what you learned this week. No new concepts today — just apply what you know.</p>
+            <div class="project-tasks"><span class="task-chip">add a todo item</span><span class="task-chip">complete a todo</span><span class="task-chip">check item count</span><span class="task-chip">filter active items</span><span class="task-chip">push to GitHub</span></div>
+          </div>
+          <div class="day-section"><span class="day-section-label label-concept">Quick Self-Check</span><ul><li>Can you write a function, a for loop, and a template literal without looking at notes?</li><li>Can you create an array of objects and loop through it?</li><li>Can you explain async/await in one sentence?</li><li>Can you write getByRole, getByText, and getByPlaceholder without looking them up?</li><li>Can you run tests with --headed and without it?</li></ul></div>
+          <div class="milestone-card"><span class="milestone-icon">🏁</span><div class="milestone-text"><h4>Week 1 Complete</h4><p>You went from zero JavaScript knowledge to writing real Playwright tests with locators and assertions. You know variables, functions, loops, objects, arrays, async/await, destructuring, and classes — and you have your first project on GitHub. That's more than most beginners get in a month.</p></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt — Week 1 Quiz</span><div class="ai-prompt">I just finished Week 1 of Playwright as a complete JavaScript beginner with 1 hour per day. I learned: variables, functions, loops, arrays, objects, template literals, destructuring, classes, async/await, and my first Playwright tests with locators and assertions. Quiz me with 7 questions covering all of these topics. One question at a time. Grade each answer strictly — I'm building toward a QA job.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week week-2" id="week2">
+    <div class="week-header">
+      <span class="week-num">02</span>
+      <div class="week-info"><h2>Core Skills — POM, API Testing, Debugging</h2><p>The skills that get you hired. One focused concept per day, fully practiced before you move on.</p></div>
+      <span class="week-tag">Days 10–16</span>
+    </div>
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 10</span><span class="day-title">playwright.config.js — Configuration + Parallel Execution</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Master the config options every professional suite uses: baseURL, timeout, retries, reporter, <strong>workers</strong> (parallel execution), and <strong>fullyParallel</strong>. Running tests in parallel is the single fastest win in any Playwright project — one config line that 5× your suite speed.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright config.js workers parallel execution 2024"</strong> — any video under 15 min that covers both config options and parallel test runs.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-configuration" target="_blank">playwright.dev/docs/test-configuration</a> — read: use, baseURL, timeout, retries, reporter, <strong>workers</strong>, and <strong>fullyParallel</strong>. These are the 7 options every professional config has.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Edit playwright.config.js: add <strong>baseURL: 'https://demo.playwright.dev/todomvc'</strong> → rewrite one test to use just <strong>'/'</strong> as the URL → add <strong>reporter: 'html'</strong> → run tests → open the report with <strong>npx playwright show-report</strong></li><li>Add <strong>workers: 4</strong> and <strong>fullyParallel: true</strong> to your config → write 4 independent tests → run them and observe they execute simultaneously in the terminal output. Then try <strong>workers: 1</strong> and compare the run time — feel the difference parallel execution makes.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">You have 20 tests that each take 3 seconds. With workers: 1 the suite takes 60 seconds. With workers: 4, roughly how long does it take? What config option must be true for parallel to work safely?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Here is my playwright.config.js: [paste your config]. Explain what each option does in simple terms. Then show me the ideal professional config with: baseURL, timeout, retries, reporter: 'html', workers: 4, and fullyParallel: true — with a comment on why each option is set that way. Also explain: what makes a test "unsafe" to run in parallel, and how do you fix it?</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 11</span><span class="day-title">Hooks — beforeEach, afterEach, test.describe</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Organise tests with describe blocks. Use beforeEach to avoid repeating page.goto() in every test.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright beforeEach afterEach describe blocks tutorial"</strong> — any clear video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/api/class-test#test-describe" target="_blank">playwright.dev/docs/api/class-test</a> — read only: test.describe, beforeEach, afterEach sections.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Refactor your Week 1 todo tests: wrap them all in <strong>test.describe('Todo App', () => {...})</strong> and add <strong>beforeEach(async ({page}) => { await page.goto('/'); })</strong> — remove the duplicate gotos</li><li>Add an afterEach that takes a screenshot: <strong>await page.screenshot({path: 'screenshot.png'});</strong></li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">What is the difference between beforeAll and beforeEach? Give one use case for each in plain English.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me a before and after example: 3 tests WITHOUT describe/beforeEach (messy), then the same 3 tests refactored WITH describe and beforeEach (clean). Use the saucedemo.com login page as the example. Explain what changed and why.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 12</span><span class="day-title">Page Object Model — The Pattern That Gets You Hired</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Build your first Page Object class. This is the #1 interview topic for every QA automation role.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright Page Object Model tutorial beginners 2024"</strong> — watch exactly 15 min. You'll return to this topic tomorrow too.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/pom" target="_blank">playwright.dev/docs/pom</a> — read the entire official POM guide. It's short. Read it twice.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>pages/LoginPage.js</strong> → add constructor(page), add 3 locators as properties, add methods: navigate(), fillUsername(), fillPassword(), clickLogin()</li><li>Use your LoginPage in a test file: import it → const login = new LoginPage(page) → call its methods → run the test</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">The login button's CSS class changes from .btn-login to .btn-submit. Without POM you'd fix 20 test files. With POM you fix 1. Prove this is true by describing where the change happens in each case.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I just built my first Page Object Model class. Here is my LoginPage.js: [paste your class]. Can you review it? Tell me: 1) is the structure correct? 2) what would a senior QA engineer improve? 3) show me the improved version with comments for each change.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 13</span><span class="day-title">API Testing — Test Without a Browser</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Write your first API test using Playwright's built-in request fixture. No browser needed.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright API testing request fixture GET POST 2024"</strong> — any video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/api-testing" target="_blank">playwright.dev/docs/api-testing</a> — read the first 2 examples only (GET and POST). Stop there.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Write a GET test using <a href="https://jsonplaceholder.typicode.com" target="_blank">jsonplaceholder.typicode.com/posts/1</a> → assert status is 200, response has an 'id' field, and 'userId' equals 1</li><li>Write a POST test to /posts → send a JSON body → assert status is 201 and the returned object contains your sent data</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Why are API tests faster than UI tests? Give 2 concrete reasons. How does this help the overall test suite?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am learning Playwright API testing. Show me: 1) a complete GET test for jsonplaceholder.typicode.com/posts/1 with proper assertions, 2) a POST test to /posts. Explain what each assertion checks and why it matters. I am a beginner.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 14</span><span class="day-title">Trace Viewer — Debug Failing Tests Like a Pro</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Use the Playwright Trace Viewer to find exactly why a test failed — line by line, screenshot by screenshot.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright trace viewer debug failing test 2024"</strong> — any video showing the trace viewer UI under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/trace-viewer" target="_blank">playwright.dev/docs/trace-viewer</a> — read the first section only: what trace viewer is and how to open it.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Add to playwright.config.js: <strong>trace: 'on-first-retry', screenshot: 'only-on-failure'</strong> → make one test fail → open the trace: <strong>npx playwright show-trace test-results/...trace.zip</strong></li><li>In the trace viewer, find: the exact failing line, the screenshot at that moment, and what the page looked like</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">You have a failing test but no idea why. What are the first 3 things you check? (Hint: error message, trace viewer, screenshot)</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I have a failing Playwright test. Here is the error message: [paste your error]. Help me debug it: 1) what does this error mean in simple English? 2) what are the 2 most likely causes? 3) what should I check first in the trace viewer?</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 15</span><span class="day-title">Inspector + page.evaluate() + waitForResponse()</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Three essential tools used every day in real QA work: <strong>Playwright Inspector</strong> (step-through debugging, better than trace viewer when writing tests live), <strong>page.evaluate()</strong> (run JavaScript in the browser — required for date pickers, scroll, canvas, cookies), and <strong>page.waitForResponse()</strong> (wait for a specific network call — essential for SPAs where navigation doesn't reload the page).</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright Inspector debug mode page.evaluate waitForResponse 2024"</strong> — any video showing the Inspector UI in action. Stop at 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/debug" target="_blank">playwright.dev/docs/debug</a> — read the Playwright Inspector section. Then read the <strong>page.evaluate()</strong> entry at playwright.dev/docs/evaluating and the <strong>waitForResponse</strong> entry at playwright.dev/docs/network.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Run any existing failing test with <strong>PWDEBUG=1 npx playwright test --headed</strong> → the Inspector opens → step through each line using the Step Over button → observe each action highlighted on the page. This is how you write tests live without constantly re-running.</li><li>Use <strong>page.evaluate()</strong> to: 1) scroll to the bottom of a page: <strong>await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))</strong>, 2) get the inner text of an element that Playwright locators can't reach: <strong>const text = await page.evaluate(() => document.querySelector('.tricky-element').innerText)</strong>. Then write a test on <a href="https://reqres.in" target="_blank">reqres.in</a> using <strong>page.waitForResponse('**/api/users')</strong> before clicking a button — assert the network response status is 200.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">You're testing a dashboard where clicking "Load Data" triggers an API call to /api/report and then updates the page. If you assert the table immediately after clicking, it fails because the data hasn't loaded yet. Write the 2-line Playwright solution using waitForResponse.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me 3 real-world use cases for page.evaluate() in Playwright: 1) scrolling to an element that is off-screen, 2) reading a value from localStorage, 3) forcing a date picker to a specific date by setting its value via JS. For each, show the evaluate() call and explain why a regular Playwright locator can't handle it. Then show me how page.waitForResponse() works differently from page.waitForSelector() — when do you use each?</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 16</span><span class="day-title">Week 2 Review + Mini Project 2</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-project">Mini Project 2 — SauceDemo POM Framework</span></div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 02</span>
+            <h3>SauceDemo Login + Product Framework</h3>
+            <p>Build a POM-based test suite for <a href="https://www.saucedemo.com" target="_blank">saucedemo.com</a> in 1 hour. Aim for 6 tests minimum. Focus on structure over quantity.</p>
+            <div class="project-tasks"><span class="task-chip">LoginPage class</span><span class="task-chip">valid login test</span><span class="task-chip">invalid login test</span><span class="task-chip">products page visible</span><span class="task-chip">beforeEach hook</span><span class="task-chip">push to GitHub</span></div>
+          </div>
+          <div class="milestone-card"><span class="milestone-icon">🏁</span><div class="milestone-text"><h4>Week 2 Complete</h4><p>You now know config with parallel workers, hooks, Page Object Model, API testing, trace viewer debugging, Playwright Inspector, page.evaluate(), and waitForResponse(). Bonus tool: run <strong>npx playwright codegen https://www.saucedemo.com</strong> to auto-generate starter test code — use it as a shortcut, then always improve the locators and add real assertions. These are exactly the skills QA job descriptions list. You're halfway to job-ready.</p></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt — Week 2 Mock Interview</span><div class="ai-prompt">Give me a 7-question mock interview covering: Page Object Model, beforeEach hooks, API testing basics, trace viewer, Playwright Inspector, page.evaluate(), and page.waitForResponse(). One question at a time. Grade me strictly — I am preparing for a QA automation job. I only have 1 hour per day so be efficient.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week week-3" id="week3">
+    <div class="week-header">
+      <span class="week-num">03</span>
+      <div class="week-info"><h2>Advanced + CI/CD + Portfolio</h2><p>Data-driven tests, GitHub Actions, authentication, and building the projects that get you interviews.</p></div>
+      <span class="week-tag">Days 17–23</span>
+    </div>
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 17</span><span class="day-title">Data-Driven Testing with test.each</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Use test.each() to run one test with multiple datasets. Also: never hardcode credentials — use .env files.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright test.each parameterized data driven 2024"</strong> — any focused video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-parameterize" target="_blank">playwright.dev/docs/test-parameterize</a> — read only the test.each example. One page, short.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Write a login test using test.each with 3 data rows: valid login, wrong password, empty fields. Each row should assert a different outcome.</li><li>Install dotenv: <strong>npm install dotenv</strong> → create <strong>.env</strong> with USERNAME and PASSWORD → use <strong>process.env.USERNAME</strong> in your test → add .env to .gitignore</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">What would happen if you accidentally committed your .env file to GitHub? Why is this a security risk?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me a complete Playwright test.each example for testing a login form with 3 different data sets (valid login, wrong password, empty fields). Use saucedemo.com. Show the test, explain test.each syntax, and show how to use .env for credentials.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 18</span><span class="day-title">Network Mocking + Handling Alerts & Popups</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Mock network requests with page.route() and handle browser alerts — two real-world skills interviewers love to ask about.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright page.route mock network request 2024"</strong> — any focused video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/network#modify-requests" target="_blank">playwright.dev/docs/network</a> — read only the "Mock APIs" section.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Use page.route() to intercept any request and return a mocked 500 response → verify the page shows an error state. Use <a href="https://the-internet.herokuapp.com" target="_blank">the-internet.herokuapp.com</a> as the practice site.</li><li>On the-internet.herokuapp.com/javascript_alerts — write a test that accepts a confirm() alert and one that dismisses it. Assert different outcomes.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">Why would you mock an API response in a test instead of hitting the real API? Give 2 reasons.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me how to use Playwright's page.route() to: 1) intercept a request and return a 500 error, 2) intercept a request and return fake JSON data. Show both examples with assertions that verify the page responds correctly to each mocked response.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 19</span><span class="day-title">CI/CD — Run Tests Automatically on GitHub</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Push to GitHub and set up GitHub Actions so your tests run automatically on every commit. This is what CI/CD means.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright GitHub Actions CI setup 2024"</strong> — any video showing the workflow file setup under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/ci#github-actions" target="_blank">playwright.dev/docs/ci</a> — read only the GitHub Actions section. Copy the example YAML.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create a free GitHub account if you don't have one → push your playwright-course project → create <strong>.github/workflows/playwright.yml</strong> using the official Playwright template</li><li>Push the workflow file → go to GitHub → click the Actions tab → watch your tests run live in the cloud for free</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Explain CI/CD to a non-technical friend in 3 sentences. Use a real-world analogy (not a tech one).</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Write me a complete GitHub Actions workflow file (.github/workflows/playwright.yml) for my Playwright JavaScript project. It should: run on push, use Node.js 20, run npm ci, install Playwright browsers, run all tests headless, and upload the HTML report as a downloadable artifact. Include a comment on each step.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 20</span><span class="day-title">storageState — Login Once, Use Everywhere</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Save browser login state to a file and reuse it across all tests. Tests start already logged in — no repeated login steps.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright storageState global setup login once 2024"</strong> — any video under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/auth" target="_blank">playwright.dev/docs/auth</a> — read only the storageState section and the global-setup example.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>global-setup.js</strong>: open browser → log in to saucedemo.com → run: <strong>await page.context().storageState({path: 'auth/user.json'})</strong></li><li>Add to playwright.config.js: <strong>globalSetup: './global-setup.js'</strong> and in use: <strong>storageState: 'auth/user.json'</strong> → run your tests — they start already logged in</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">Your test suite has 30 tests and each one logs in. If login takes 3 seconds, how much time do you waste per run? How does storageState fix this?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me step-by-step how to implement Playwright storageState for saucedemo.com: 1) the global-setup.js file, 2) the playwright.config.js changes, 3) what a test file looks like when using the saved auth. Keep each step very simple for a beginner.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 21</span><span class="day-title">Test Tags + Allure Reporting</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Tag tests as @smoke or @regression. Run only smoke tests. Set up Allure for a professional-looking report.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright Allure report setup 2024"</strong> — any clear setup walkthrough under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-annotations#tag-tests" target="_blank">playwright.dev/docs/test-annotations</a> — read only the "Tag tests" section.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Add @smoke to 3 of your test names → run only those: <strong>npx playwright test --grep @smoke</strong> → add to package.json scripts: <strong>"smoke": "playwright test --grep @smoke"</strong> → run: <strong>npm run smoke</strong></li><li>Install Allure: <strong>npm install -D allure-playwright</strong> → add to config reporter → run tests → <strong>npx allure generate allure-results && npx allure open</strong></li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">What is a flaky test? Name 3 common causes. What is the wrong fix (retrying) vs the right fix (finding the root cause)?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Give me complete step-by-step instructions to set up Allure reporting in Playwright on Windows: install command, config change, how to run and generate the report, and how to open it in the browser. Keep it beginner-friendly.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 22</span><span class="day-title">Mini Project 3 + 4 — API Suite + Framework</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-project">Two Focused Projects in 1 Hour</span></div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 03</span>
+            <h3>ReqRes.in — REST API Test Suite</h3>
+            <p>Write API tests for <a href="https://reqres.in" target="_blank">reqres.in</a> — focus on quality over quantity. 4 well-written tests beat 20 shallow ones.</p>
+            <div class="project-tasks"><span class="task-chip">GET /users/2</span><span class="task-chip">POST /users</span><span class="task-chip">DELETE /users/2</span><span class="task-chip">login endpoint</span><span class="task-chip">assert status + body</span></div>
+          </div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 04</span>
+            <h3>SauceDemo — Expanded Framework</h3>
+            <p>Extend your Day 14 project: add storageState auth, @smoke tags, data-driven login tests, and an Allure report configuration.</p>
+            <div class="project-tasks"><span class="task-chip">storageState added</span><span class="task-chip">@smoke tags</span><span class="task-chip">test.each login</span><span class="task-chip">Allure configured</span><span class="task-chip">CI badge in README</span></div>
+          </div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Review my Playwright project folder structure: [describe your layout]. Is it organised like a professional QA engineer would structure it? What should I rename, move, or add? Show me what the ideal structure looks like with folder names and file names.</div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)"><span class="day-num">DAY 23</span><span class="day-title">Capstone Project + Portfolio Polish</span><span class="day-time">1 hr</span><span class="day-toggle">+</span></div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-project">Mini Project 5 — Your Showpiece</span></div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 05 — CAPSTONE</span>
+            <h3>Your Portfolio Showpiece Project</h3>
+            <p>Choose one: <a href="https://opensource-demo.orangehrmlive.com" target="_blank">OrangeHRM</a> or <a href="https://www.demoblaze.com" target="_blank">DemoBlaze</a>. In 1 hour: write 5 solid tests, add a professional README, push to GitHub. Quality over quantity.</p>
+            <div class="project-tasks"><span class="task-chip">POM structure</span><span class="task-chip">5 quality tests</span><span class="task-chip">storageState</span><span class="task-chip">@smoke tags</span><span class="task-chip">CI pipeline</span><span class="task-chip">README.md</span></div>
+          </div>
+          <div class="day-section"><span class="day-section-label label-concept">Your README Must Have</span><ul><li><strong>What the project tests</strong> — one paragraph, plain English</li><li><strong>Tech stack</strong> — Playwright, JavaScript, Node.js, GitHub Actions</li><li><strong>How to run</strong> — exact commands: npm install, npx playwright test</li><li><strong>GitHub Actions CI badge</strong> — shows employers tests are live and green</li></ul></div>
+          <div class="milestone-card"><span class="milestone-icon">🎓</span><div class="milestone-text"><h4>You Are Job-Ready — 21 Hours Well Spent</h4><p>5 GitHub projects · CI/CD pipeline · API + UI testing · POM framework · Allure reporting · storageState · soft assertions · parallel workers · Playwright Inspector · page.evaluate() · waitForResponse(). You have more practical Playwright knowledge than most self-taught beginners who spent 3x more time.</p></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">Final AI Prompt</span><div class="ai-prompt">I just finished a 21-day Playwright course at 1 hour per day as a complete beginner. I built 5 projects. Help me with 3 things: 1) write a professional README for my capstone project — here is what it tests: [describe it], 2) write 3 resume bullet points for my QA automation skills, 3) give me my 5 most important interview topics to review before applying. Let's start with the README.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- WEEK 4 -->
+  <div class="week week-4" id="week4" style="--w4accent:#ff6b9d;">
+    <div class="week-header">
+      <span class="week-num">04</span>
+      <div class="week-info">
+        <h2>Pro Skills — iFrames, Files, Visual Testing & TypeScript</h2>
+        <p>The topics that separate a complete QA engineer from a partial one. Visual regression, TypeScript migration, console error listening, and every interaction pattern you'll face in real apps.</p>
+      </div>
+      <span class="week-tag">Days 24–30</span>
+    </div>
+    <div class="day-grid">
+
+      <!-- DAY 24 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 24</span>
+          <span class="day-title">iFrames — Testing Inside Embedded Content</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Use <strong>frameLocator()</strong> to find and interact with elements inside iFrames — payment widgets, embedded forms, and third-party content all use iFrames</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright iframe frameLocator tutorial 2024"</strong> — any clear video under 15 min showing frameLocator in action.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/frames" target="_blank">playwright.dev/docs/frames</a> — read the entire page. It is short. Focus on frameLocator() and chaining locators inside it.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Go to <a href="https://the-internet.herokuapp.com/iframe" target="_blank">the-internet.herokuapp.com/iframe</a> → use <strong>page.frameLocator('#mce_0_ifr')</strong> to find the editor body inside the iframe → type text into it → assert the text is present</li><li>Try chaining: <strong>page.frameLocator('iframe').locator('body').fill('Hello from test')</strong> — then <strong>page.frameLocator('iframe').getByRole('paragraph')</strong></li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">What happens if you try to use a normal page.locator() to find an element inside an iframe? Why does it fail? What must you use instead?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am trying to interact with an element inside an iframe in Playwright. Here is my code that isn't working: [paste code]. Can you explain: 1) why it fails, 2) how frameLocator() works, 3) show the correct version. Also explain what cross-origin iframes are and why they need different handling.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 25 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 25</span>
+          <span class="day-title">File Upload & Download — Handling Files in Tests</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Upload files with <strong>setInputFiles()</strong> and download files with <strong>page.waitForEvent('download')</strong> — asked in almost every QA interview</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright file upload download test setInputFiles 2024"</strong> — any demo under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/input#upload-files" target="_blank">playwright.dev/docs/input#upload-files</a> — read the file upload section. Then read the Downloads section just below it.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Go to <a href="https://the-internet.herokuapp.com/upload" target="_blank">the-internet.herokuapp.com/upload</a> → create a small text file in your project folder → use <strong>await page.locator('#file-upload').setInputFiles('test-data/test-file.txt')</strong> → click upload → assert the success message is visible</li><li>Go to <a href="https://the-internet.herokuapp.com/download" target="_blank">the-internet.herokuapp.com/download</a> → write a test that clicks a download link using <strong>page.waitForEvent('download')</strong> → assert the download started</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">How would you test uploading multiple files at once using setInputFiles()? Write the single line of code that does it.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me complete Playwright code examples for: 1) uploading a single file using setInputFiles(), 2) uploading multiple files at once, 3) handling a file download with waitForEvent('download') and saving it to a specific path. Use the-internet.herokuapp.com as the test site.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 26 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 26</span>
+          <span class="day-title">Cross-Browser Testing — Chrome, Firefox & Safari</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Configure Playwright to run your tests across Chromium, Firefox, and WebKit (Safari) — this is what employers expect and what CI pipelines do in real companies</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright cross browser testing chromium firefox webkit 2024"</strong> — any setup walkthrough under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-projects" target="_blank">playwright.dev/docs/test-projects</a> — read the "Projects" section. This is how you configure multiple browsers.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Edit playwright.config.js → add all 3 browser projects:<br><strong>projects: [ {name:'chromium', use:{...devices['Desktop Chrome']}}, {name:'firefox', use:{...devices['Desktop Firefox']}}, {name:'webkit', use:{...devices['Desktop Safari']}} ]</strong></li><li>Run only one browser: <strong>npx playwright test --project=firefox</strong> · Run all browsers: <strong>npx playwright test</strong> · Open the HTML report → notice results grouped by browser</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff easy">Easy</span><span class="prob-text">One of your tests passes on Chromium but fails on Firefox. Name 3 possible reasons why a test would behave differently across browsers.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me a complete playwright.config.js that runs tests on Chromium, Firefox, and WebKit. Also show me how to add a mobile device (iPhone 13) as a 4th project using Playwright's built-in devices. Explain what the spread operator (...devices['Desktop Chrome']) does in this context.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 27 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 27</span>
+          <span class="day-title">Custom Fixtures & Browser Contexts</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Build custom fixtures with <strong>test.extend()</strong> — cleaner than beforeEach. Use browser contexts for isolated, multi-user, or incognito testing.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright custom fixtures test.extend tutorial 2024"</strong> — any clear explanation under 15 min.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-fixtures#creating-a-fixture" target="_blank">playwright.dev/docs/test-fixtures</a> — read "Creating a fixture" section and the browser context isolation example.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>Create <strong>fixtures/index.js</strong> → define a custom <strong>loggedInPage</strong> fixture using test.extend() that navigates to saucedemo.com and logs in → export the extended test → use it in a spec file instead of beforeEach</li><li>Write a test that opens 2 browser contexts simultaneously — one logged in as standard_user, one not logged in — and asserts different page states for each</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">What is the difference between a custom fixture and a beforeEach hook? When is a fixture better? Give a concrete example where beforeEach becomes messy but a fixture stays clean.</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me a complete example of a Playwright custom fixture using test.extend(). Create a loggedInPage fixture that logs in to saucedemo.com and provides an authenticated page. Then show a test file that imports and uses this fixture instead of beforeEach. Explain the benefit over beforeEach in simple terms.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 28 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 28</span>
+          <span class="day-title">Advanced Interactions + Console Listening + Visual Snapshots</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Three production skills in one day: <strong>drag & drop, hover, keyboard shortcuts</strong> (the interactions that trip up beginners), <strong>page.on('console') / page.on('pageerror')</strong> (catch hidden JS errors your eyes can't see — a daily debugging tool), and <strong>toHaveScreenshot()</strong> (visual regression testing — detect pixel-level UI changes automatically).</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright drag drop hover keyboard visual regression toHaveScreenshot 2024"</strong> — any practical demo under 15 min covering interactions and/or visual testing.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/input#drag-and-drop" target="_blank">playwright.dev/docs/input</a> — Drag and Drop, Mouse, Keyboard sections. Then read <a href="https://playwright.dev/docs/test-snapshots" target="_blank">playwright.dev/docs/test-snapshots</a> — the toHaveScreenshot() section only.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>On <a href="https://the-internet.herokuapp.com/drag_and_drop" target="_blank">the-internet.herokuapp.com/drag_and_drop</a> → use <strong>page.dragAndDrop('#column-a', '#column-b')</strong> → assert columns swapped. On <a href="https://the-internet.herokuapp.com/hovers" target="_blank">the-internet.herokuapp.com/hovers</a> → use <strong>await locator.hover()</strong> → assert the hidden info appears. Try: <strong>page.keyboard.press('Tab')</strong> and <strong>page.keyboard.type('Hello')</strong></li><li>Add <strong>page.on('console', msg => console.log('BROWSER LOG:', msg.text()))</strong> and <strong>page.on('pageerror', err => console.error('JS ERROR:', err))</strong> to one of your existing tests — run it and observe browser logs printed in your terminal. Then write a visual snapshot test: navigate to example.com → call <strong>await expect(page).toHaveScreenshot('homepage.png')</strong> → run once to generate baseline → change a CSS class in the URL and run again — watch the diff report show exactly what changed.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">A button click triggers a JS error in the browser console but the page still looks normal. A regular Playwright assertion would pass. How do you use page.on('pageerror') to catch this and fail the test automatically?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">Show me Playwright code for: 1) drag and drop with assertion, 2) setting up page.on('console') and page.on('pageerror') as a reusable beforeEach that fails a test if any JS error occurs on the page, 3) a toHaveScreenshot() test with a custom threshold to allow minor pixel differences. For item 2 explain why catching console errors in tests is important in real projects even when the UI looks correct.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 29 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 29</span>
+          <span class="day-title">TypeScript — Convert Your Project to Industry Standard</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-concept">Today's Focus</span><ul><li>Migrate your Playwright project from JavaScript to <strong>TypeScript</strong> — the industry standard at 80%+ of companies hiring QA automation engineers. TypeScript adds types to JavaScript, catching mistakes as you type rather than at runtime. The migration is mostly mechanical, and your tests run identically after. One day of effort, permanently more hireable.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-watch">Watch (15 min max)</span><ul><li>Search: <strong>"Playwright TypeScript setup migrate from JavaScript 2024"</strong> — any walkthrough under 15 min showing tsconfig setup and converting .js to .ts spec files.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Read (10 min)</span><ul><li><a href="https://playwright.dev/docs/test-typescript" target="_blank">playwright.dev/docs/test-typescript</a> — read the entire page. It is short. Playwright has native TypeScript support — no build step required. Then briefly read the TypeScript Handbook intro at typescriptlang.org/docs/handbook/intro.html.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-hands">Hands-On (30 min)</span><ul><li>In your playwright-course project: rename one spec file from <strong>login.spec.js → login.spec.ts</strong> → add a basic <strong>tsconfig.json</strong> (Playwright provides a template) → run <strong>npx playwright test</strong> — it works immediately with zero build step. Now add a type: change <strong>async ({ page })</strong> to <strong>async ({ page }: { page: Page })</strong> and import Page from '@playwright/test'. Watch VS Code now autocomplete page methods as you type.</li><li>Convert your <strong>LoginPage.js POM class → LoginPage.ts</strong>: add typed properties (<strong>readonly page: Page</strong>), typed method return types (<strong>async login(): Promise&lt;void&gt;</strong>). Convert one more spec file. Your GitHub project now shows TypeScript — a significant portfolio upgrade.</li></ul></div>
+          <div class="day-section"><span class="day-section-label label-prob">1 Problem (5 min)</span><div class="prob-block"><div class="prob-item"><span class="prob-diff medium">Med</span><span class="prob-text">In TypeScript, what does <strong>readonly page: Page</strong> mean inside a POM class? What would happen at compile time if you accidentally wrote <strong>this.page = newPage</strong> after the constructor? Why is this useful for test maintenance?</span></div></div></div>
+          <div class="day-section"><span class="day-section-label label-ai">AI Prompt (if stuck)</span><div class="ai-prompt">I am migrating my Playwright project from JavaScript to TypeScript. Show me: 1) the tsconfig.json I need (Playwright-compatible), 2) how to convert a JavaScript POM class to TypeScript with typed properties and return types, 3) how to type the test fixture ({ page }: { page: Page }), 4) the 3 most common TypeScript errors beginners hit when migrating Playwright tests and how to fix each. Keep all explanations beginner-friendly.</div></div>
+        </div>
+      </div>
+
+      <!-- DAY 30 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-num">DAY 30</span>
+          <span class="day-title">Full Review + Final Capstone + What's Next</span>
+          <span class="day-time">1 hr</span>
+          <span class="day-toggle">+</span>
+        </div>
+        <div class="day-body">
+          <div class="day-section"><span class="day-section-label label-project">Final Capstone — Complete Framework</span></div>
+          <div class="project-card">
+            <span class="project-badge">// Mini Project 05 — FINAL CAPSTONE</span>
+            <h3>Your Complete Job-Ready Portfolio Project</h3>
+            <p>Choose one: <a href="https://opensource-demo.orangehrmlive.com" target="_blank">OrangeHRM</a> or <a href="https://automationexercise.com" target="_blank">Automation Exercise</a>. Spend your 1 hour adding the Week 4 skills to your existing capstone: iFrame handling if present, file upload if applicable, cross-browser config, TypeScript spec files, and visual snapshots for at least 2 key pages.</p>
+            <div class="project-tasks"><span class="task-chip">TypeScript spec files</span><span class="task-chip">POM + fixtures</span><span class="task-chip">UI + API tests</span><span class="task-chip">Visual snapshots</span><span class="task-chip">3 browsers in config</span><span class="task-chip">workers: 4</span><span class="task-chip">storageState</span><span class="task-chip">GitHub Actions</span><span class="task-chip">Allure report</span><span class="task-chip">README + CI badge</span></div>
+          </div>
+          <div class="day-section"><span class="day-section-label label-concept">Complete Skills Checklist</span><ul>
+            <li><strong>Week 1:</strong> Setup · JS variables/functions/loops · Arrays/objects/template literals · Destructuring/classes/spread · Async/await · First test · Locators (getByTestId + filter) · Assertions (soft + toHaveAttribute)</li>
+            <li><strong>Week 2:</strong> Config + parallel workers · Hooks · POM · API testing · Trace viewer · Inspector + page.evaluate() + waitForResponse()</li>
+            <li><strong>Week 3:</strong> test.each · Network mocking · GitHub Actions · storageState · Allure + tags · Hybrid UI+API flows</li>
+            <li><strong>Week 4:</strong> iFrames · File upload/download · Cross-browser · Custom fixtures · Interactions + page.on('console') + Visual snapshots · TypeScript migration</li>
+          </ul></div>
+          <div class="day-section"><span class="day-section-label label-read">Where to Go Next</span><ul>
+            <li><strong>API Schema Validation:</strong> Go beyond status codes — validate the <em>shape and types</em> of API responses. Write a helper <strong>validateUserSchema(user)</strong> that checks required fields and types. See: <a href="https://playwright.dev/docs/api-testing" target="_blank">playwright.dev/docs/api-testing</a> — "Verify response body" section.</li>
+            <li><strong>TypeScript — Go Deeper:</strong> You migrated one file on Day 27. Now convert everything. Add typed custom fixtures, typed POM constructors, typed test data files. Your entire project in TypeScript is the gold standard.</li>
+            <li><strong>Component Testing:</strong> <a href="https://playwright.dev/docs/test-components" target="_blank">playwright.dev/docs/test-components</a> — test React/Vue components in isolation without a full browser. Growing fast in frontend teams.</li>
+            <li><strong>Test Sharding:</strong> Split your suite across multiple CI machines using <strong>--shard=1/3</strong> flags. At 50+ tests this is how teams keep CI under 5 minutes.</li>
+            <li><strong>Docker + Playwright:</strong> Run your tests in a container for consistent, reproducible environments. One Dockerfile, one <strong>docker run</strong> command. Essential for DevOps-heavy teams.</li>
+            <li>Free courses: <a href="https://testautomationu.applitools.com" target="_blank">Test Automation University</a> — all free, all excellent</li>
+          </ul></div>
+          <div class="milestone-card">
+            <span class="milestone-icon">🎓</span>
+            <div class="milestone-text">
+              <h4>100% Complete — Every Topic Covered</h4>
+              <p>30 days · 30 hours · 5 portfolio projects · zero JS knowledge to TypeScript-ready QA engineer. Parallel execution · visual regression · CI/CD · full JS foundations · every Playwright skill a junior-to-mid role requires. You know more than most self-taught engineers who spent 3× the time. Now apply.</p>
+            </div>
+          </div>
+          <div class="day-section"><span class="day-section-label label-ai">Final AI Prompt</span><div class="ai-prompt">I just completed a 30-day Playwright course at 1 hour per day starting from zero JavaScript knowledge. I covered: JS fundamentals (variables, functions, loops, arrays, objects, async/await, destructuring, classes), locators (getByTestId, filter), soft assertions, parallel execution, POM, API testing, CI/CD with GitHub Actions, storageState, Playwright Inspector, page.evaluate(), page.on('console'), visual regression with toHaveScreenshot(), iFrames, file upload, cross-browser testing, custom fixtures, drag and drop, and TypeScript migration. Help me: 1) write a professional README for my capstone, 2) write 4 resume bullet points for a QA Automation Engineer application, 3) give me my 6 most important interview topics to review this week. Start with the README.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTERVIEW PREP -->
+  <hr class="divider">
+  <div class="section-header" id="interview">
+    <span class="section-tag">Job Ready</span>
+    <h2 class="section-title">Top 10 Interview Questions — With Answers</h2>
+  </div>
+  <div class="qa-grid">
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q01</span><span class="qa-q">What is Playwright and how is it different from Selenium?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Playwright is a modern automation framework by Microsoft supporting Chromium, Firefox, and WebKit. Unlike Selenium it has built-in auto-waiting, native async/await, network request mocking, a trace viewer, iFrame support via frameLocator, and built-in API testing. It is faster, more reliable, and significantly easier to write and maintain than Selenium for modern web apps.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q02</span><span class="qa-q">What is the Page Object Model and why do we use it?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">POM is a design pattern where each page is a class containing that page's locators and actions. Tests use class methods instead of raw selectors. If a locator changes, you fix it in one file — not 20 test files. Code is reusable. Tests are readable. Maintenance cost drops dramatically as the application grows.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q03</span><span class="qa-q">How do you handle elements inside iFrames?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Use page.frameLocator('iframe-selector') to scope all subsequent locators inside the iframe. Example: page.frameLocator('#payment-iframe').getByLabel('Card number').fill('4242...'). For nested iFrames, chain multiple frameLocator calls. Cross-origin iFrames (different domain) cannot be directly accessed due to browser security — you need special handling or the page's cooperation.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q04</span><span class="qa-q">How do you test file upload in Playwright?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Use locator.setInputFiles('path/to/file.txt') on the file input element. For multiple files: setInputFiles(['file1.txt', 'file2.pdf']). For downloads, wrap the click in page.waitForEvent('download') — this resolves with a Download object where you can call download.suggestedFilename() or download.saveAs('path'). No browser dialog handling needed — Playwright intercepts at the protocol level.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q05</span><span class="qa-q">How do you run tests across multiple browsers?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Configure projects in playwright.config.js — one entry per browser using Playwright's built-in devices: Desktop Chrome, Desktop Firefox, Desktop Safari. Run all: npx playwright test. Run one: npx playwright test --project=firefox. The HTML report groups results by browser so you can see exactly which browser failed which test. Add a mobile device project using devices['iPhone 13'] for mobile viewport testing.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q06</span><span class="qa-q">What is a custom fixture and how is it better than beforeEach?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">A fixture defined with test.extend() is a reusable, injectable dependency. Unlike beforeEach — which runs for every test in the file whether they need it or not — fixtures are only set up when a test actually requests them by name. They're sharable across multiple test files, composable (fixtures can use other fixtures), and self-documenting. A loggedInPage fixture is cleaner than repeating a beforeEach login in every spec file.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q07</span><span class="qa-q">What is storageState and when do you use it?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">storageState saves browser cookies and localStorage to a JSON file after login. All tests load this as their starting state — already authenticated. Configure it in global-setup.js and reference it in playwright.config.js. Benefits: much faster runs (no login per test), no login flakiness, and ability to test multiple roles with separate state files. Add the auth folder to .gitignore so credentials aren't committed.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q08</span><span class="qa-q">How do you test APIs in Playwright and what do you assert?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Use the built-in request fixture: request.get(url), request.post(url, {data:{...}}), request.delete(). Assert: response.status() for HTTP code, response.ok() for 2xx, response.json() for body content. Go beyond status codes — validate schema: check required fields exist, check field types (typeof x === 'string'), check nested objects, check array lengths. Write a reusable schema validator function and call it across multiple tests.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q09</span><span class="qa-q">What is a flaky test and how do you fix it?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">A flaky test passes sometimes and fails sometimes without code changes. Causes: race conditions (fix with proper waiting not timeouts), test order dependency (fix with isolated data), network variability (fix with mocking), shared state (fix with isolated browser contexts). Use the trace viewer to see exactly what happened on the failing run. Retrying is not a fix — it hides the problem. Always find the root cause.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q10</span><span class="qa-q">How do you structure a complete Playwright project professionally?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Professional structure: /tests (spec files by feature), /pages (POM classes — one per page), /fixtures (custom test.extend fixtures), /test-data (JSON data files), /utils (schema validators, helpers), /auth (storageState files — gitignored), .env (credentials — gitignored), playwright.config.js (3 browser projects, baseURL, retries, reporter), global-setup.js, package.json with npm scripts for smoke/regression/report. Page classes contain only locators and actions — no test logic inside pages.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q11</span><span class="qa-q">What is parallel execution in Playwright and how do you configure it?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">Playwright runs tests in parallel by default using worker processes. Configure with <strong>workers: N</strong> (number of parallel workers) and <strong>fullyParallel: true</strong> (every test file runs in parallel, not just files within a spec). In CI, set workers to the number of CPU cores available. Critical constraint: tests must be fully isolated — no shared state, no dependency on execution order. If two tests write to the same database record simultaneously, you get race conditions. Fix by using unique test data per test or mocking the data layer. Parallel execution is the single fastest performance win in any large suite.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q12</span><span class="qa-q">What is page.evaluate() and when do you need it?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">page.evaluate() runs a JavaScript function inside the browser's JavaScript context and returns the result to your test. Use it when Playwright's built-in locators and actions cannot reach what you need: reading/writing localStorage or sessionStorage, forcing a date picker to a value by setting its .value property directly, scrolling to a specific position, checking computed CSS styles, reading values from canvas elements, or interacting with third-party widgets that don't have accessible roles. The key distinction: page.locator() finds DOM elements from the outside; page.evaluate() runs code from inside the browser. If you find yourself using evaluate() to click or fill elements, that's usually a sign to use a better locator instead.</p></div></div>
+    <div class="qa-card"><div class="qa-header" onclick="toggleQA(this)"><span class="qa-num">Q13</span><span class="qa-q">What is TypeScript and why does it matter for Playwright?</span><span class="qa-toggle">+</span></div><div class="qa-body"><p class="qa-a">TypeScript adds static types to JavaScript. In Playwright, this means: VS Code autocompletes every page method as you type (no more guessing spellings), type errors are caught before you run tests (if you pass a string where a number is expected, your editor tells you immediately), and POM classes are self-documenting (readonly page: Page tells anyone reading the code exactly what properties exist and what types they are). Playwright has native TypeScript support — no build step, no compilation, just rename .js to .ts and add a tsconfig.json. The migration is mostly mechanical. Most companies hiring QA automation engineers in 2024+ specify TypeScript. A JavaScript-only Playwright portfolio is functional but increasingly a yellow flag for senior reviewers.</p></div></div>
+  </div>
+
+  <!-- RESOURCES -->
+  <hr class="divider">
+  <div class="section-header" id="resources">
+    <span class="section-tag">All In One Place</span>
+    <h2 class="section-title">Master Resource List</h2>
+  </div>
+  <div class="resource-grid">
+    <div class="resource-card"><span class="resource-icon">📺</span><h3>YouTube — Watch List</h3><ul class="resource-list"><li><a href="https://www.youtube.com/@LambdaTest" target="_blank">LambdaTest</a> — Best Playwright tutorials 2024</li><li><a href="https://www.youtube.com/@AutomationBro" target="_blank">Automation Bro</a> — Clear step-by-step Playwright</li><li><a href="https://www.youtube.com/@aakashchotrani" target="_blank">Aakash Chotrani</a> — Beginner-friendly series</li><li><a href="https://www.youtube.com/@Fireship" target="_blank">Fireship</a> — JS fundamentals (short, fast)</li></ul></div>
+    <div class="resource-card"><span class="resource-icon">📚</span><h3>Reading & Docs</h3><ul class="resource-list"><li><a href="https://playwright.dev/docs/intro" target="_blank">playwright.dev/docs</a> — Your bible. Bookmark it.</li><li><a href="https://javascript.info" target="_blank">javascript.info</a> — Best free JS resource</li><li><a href="https://testautomationu.applitools.com" target="_blank">Test Automation University</a> — All free courses</li><li><a href="https://allurereport.org" target="_blank">Allure Report docs</a> — Professional reporting</li></ul></div>
+    <div class="resource-card"><span class="resource-icon">💻</span><h3>Practice Sites</h3><ul class="resource-list"><li><a href="https://demo.playwright.dev/todomvc" target="_blank">Playwright TodoMVC</a> — Official practice app</li><li><a href="https://www.saucedemo.com" target="_blank">SauceDemo</a> — E-commerce test site</li><li><a href="https://the-internet.herokuapp.com" target="_blank">The Internet (Heroku)</a> — 40+ real scenarios</li><li><a href="https://automationexercise.com" target="_blank">Automation Exercise</a> — Full e-commerce</li><li><a href="https://reqres.in" target="_blank">ReqRes.in</a> — Free REST API</li><li><a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a> — Simple fake API</li></ul></div>
+    <div class="resource-card"><span class="resource-icon">🛠️</span><h3>Tools</h3><ul class="resource-list"><li><a href="https://code.visualstudio.com" target="_blank">VS Code</a> + Playwright extension</li><li><a href="https://nodejs.org" target="_blank">Node.js 20 LTS</a> — Required runtime</li><li><a href="https://github.com" target="_blank">GitHub</a> — Portfolio + CI/CD (free)</li><li><a href="https://www.typescriptlang.org" target="_blank">TypeScript</a> — Industry-standard language for Playwright</li><li><a href="https://www.loom.com" target="_blank">Loom</a> — Free screen recording for interviews</li></ul></div>
+    <div class="resource-card"><span class="resource-icon">🔑</span><h3>TypeScript Resources</h3><ul class="resource-list"><li><a href="https://playwright.dev/docs/test-typescript" target="_blank">playwright.dev/docs/test-typescript</a> — Native TS support, zero build step</li><li><a href="https://www.typescriptlang.org/docs/handbook/intro.html" target="_blank">TypeScript Handbook</a> — Official beginner guide</li><li>Search: <strong>"Playwright TypeScript POM class tutorial 2024"</strong> — LambdaTest has a good one</li></ul></div>
+  </div>
+
+  <!-- TIPS -->
+  <hr class="divider">
+  <div class="section-header">
+    <span class="section-tag">Stay on Track</span>
+    <h2 class="section-title">Tips for Success at 1hr/day</h2>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card"><span class="tip-emoji">⏱️</span><h3>Stop at 60 Minutes</h3><p>Set a timer. Stop when it rings. 28 days of 1 focused hour beats burning out after day 10. Consistency is the entire strategy.</p></div>
+    <div class="tip-card"><span class="tip-emoji">🎬</span><h3>15 Min Video Cap</h3><p>If the video is 30 min, watch the first 15 and stop. Your hands-on time is twice as valuable as passive watching. Code first.</p></div>
+    <div class="tip-card"><span class="tip-emoji">🤖</span><h3>Use the AI Prompt Fast</h3><p>Stuck? Don't spend 20 minutes googling. Paste that day's AI prompt into Claude immediately. Get unblocked in 2 minutes and keep moving.</p></div>
+    <div class="tip-card"><span class="tip-emoji">📁</span><h3>Push Every Single Day</h3><p>Even 5 lines of code — commit and push. A GitHub graph with 28 green squares is something QA hiring managers actually look at.</p></div>
+    <div class="tip-card"><span class="tip-emoji">🚫</span><h3>No Passive Days</h3><p>Only 20 minutes today? Skip the video. Do the hands-on task. Writing code for 20 minutes beats watching for 20 minutes every time.</p></div>
+    <div class="tip-card"><span class="tip-emoji">🧠</span><h3>Review Days Are Sacred</h3><p>Days 9, 16, 23, 30 are review days — use them to consolidate, not rush ahead. Solid Week 1 JS foundations make everything else feel easy.</p></div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Built for you — from <span>zero</span> to <span>complete Playwright engineer</span> in 28 hours 🎭</p>
+  <p style="margin-top:8px;font-size:11px;">Powered by Claude × Anthropic</p>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const el=document.getElementById('progress');
+    const st=document.documentElement.scrollTop;
+    const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+    el.style.width=(st/sh*100)+'%';
+  });
+  function toggleDay(h){h.parentElement.classList.toggle('open');}
+  function toggleQA(h){h.parentElement.classList.toggle('open');}
+</script>
+</body>
+</html>
